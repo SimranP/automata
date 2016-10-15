@@ -17,7 +17,6 @@ public class Parser {
     }
 
     public HashMap<String, HashSet<String>> tuple(){
-        System.out.println(jsonTuple);
         HashMap<String, HashSet<String>> tuple = new HashMap<>();
         JSONArray start_state = new JSONArray();
         start_state.add(jsonTuple.get("start-state"));
