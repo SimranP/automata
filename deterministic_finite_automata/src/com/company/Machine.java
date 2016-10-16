@@ -3,8 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class
-Machine {
+public class Machine {
     private final HashMap<String, HashSet<String>> tuple;
     private String state;
     private Delta delta;
@@ -19,5 +18,9 @@ Machine {
         String[] inputalphabets = string.split("");
         for (String alphabet : inputalphabets) this.state = this.delta.run(this.state, alphabet);
         return tuple.get("final_states").contains(this.state);
+    }
+
+    public void reset() {
+        this.state = String.valueOf(tuple.get("initial_state").toArray()[0]);
     }
 }
