@@ -8,15 +8,15 @@ import java.util.*;
 
 
 public class Parser {
-    private JSONObject jsonTuple;
-
-    public void parse(String json) throws ParseException {
+    public ArrayList<JSONObject> parse(String json) throws ParseException {
+        ArrayList<JSONObject> allObjects = new ArrayList<>();
         JSONParser jsonParser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
-        jsonTuple = (JSONObject) jsonObject.get("tuple");
+        JSONArray jsonObjects = (JSONArray) jsonParser.parse(json);
+        for (Object jsonObject: jsonObjects) allObjects.add((JSONObject) jsonObject);
+        return allObjects;
     }
 
-    public HashMap<String, HashSet<String>> tuple(){
+    public HashMap<String, HashSet<String>> tuple(JSONObject jsonTuple){
         HashMap<String, HashSet<String>> tuple = new HashMap<>();
         JSONArray start_state = new JSONArray();
         start_state.add(jsonTuple.get("start-state"));
@@ -32,13 +32,11 @@ public class Parser {
 
     private HashSet<String> convertToHashSet(JSONArray array){
         HashSet<String> hashset = new HashSet<>();
-        for (Object string : array) {
-            hashset.add((String) string);
-        }
+        for (Object string : array) hashset.add((String) string);
         return hashset;
     }
 
-    public Delta delta(){
+    public Delta delta(JSONObject jsonTuple){
         HashSet<String[]> transitions = new HashSet<>();
         JSONObject delta =(JSONObject) jsonTuple.get("delta");
         for (Object key: delta.keySet()) {
@@ -50,5 +48,4 @@ public class Parser {
         }
         return Delta.create(transitions);
     };
-
 }
